@@ -9,13 +9,9 @@ app.get("/", (req, res) => {
 
   var today = new Date();
   var currentDay = today.getDay();
-  var day = "";
-  if (currentDay === 6 || currentDay ===0){
-    day = "a Weekend";
-  }else{
-    day = "a Weekday";
-  }
-  res.render('list', {kindOfDay: day});
+  var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  res.render('list', {day: days[currentDay]});
 
 });
 
