@@ -21,6 +21,10 @@ app.get("/", (req, res) => {
 
 });
 
+app.post("/", (req, res)=>{
+  console.log(req.body.newItem);
+})
+
 app.listen(3000, (req, res)=>{
   console.log("Server started on port 3000");
 });

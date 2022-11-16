@@ -12,5 +12,15 @@
   <%}else{%>
   <h1 style="color: darkblue"><%=day%> List!</h1>
   <%}%>
+
+  <ul>
+    <li>Buy Food</li>
+    <li>Cook Food</li>
+    <li>Eat Food</li>
+  </ul>
+  <form action="/" method="post">
+    <input id="newItem" name="newItem" type="text">
+    <button type="submit" name="button">Add</button>
+  </form>
 </body>
 </html>
