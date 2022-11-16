@@ -8,17 +8,23 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <% if(day === "Sunday" || day === "Saturday"){%>
-    <h1 style="color: magenta"><%=day%> List!</h1>
-  <%}else{%>
-  <h1 style="color: darkblue"><%=day%> List!</h1>
-  <%}%>
 
-  <ul>
-    <% for(i = 0; i < newItems.length; i++){ %>
-      <li><%=newItems[i]%></li>
+  <div id="heading" class="box">
+    <% if(day === "Sunday" || day === "Saturday"){%>
+      <h1 style="color: magenta"><%=day%> List!</h1>
+    <%}else{%>
+    <h1 style="color: darkblue"><%=day%> List!</h1>
     <%}%>
-  </ul>
+  </div>
+
+  <div class="box">
+      <% for(i = 0; i < newItems.length; i++){ %>
+        <div class="item">
+          <p><%=newItems[i]%></p>
+        </div>
+      <%}%>
+  </div>
+
   <form action="/" method="post">
     <input id="newItem" name="newItem" type="text">
     <button type="submit" name="button">Add</button>
