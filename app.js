@@ -5,11 +5,11 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-var items = ["Buy Food", "Cook Food", "Eat Food"]
+let items = ["Buy Food", "Cook Food", "Eat Food"]
 
 app.get("/", (req, res) => {
 
-  var today = new Date();
+  let today = new Date();
 
   const options = {
     weekday: "long",
@@ -17,14 +17,14 @@ app.get("/", (req, res) => {
     month: "long"
   }
 
-  var currentDay = today.toLocaleDateString("en-US", options);
+  let currentDay = today.toLocaleDateString("en-US", options);
 
   res.render('list', {day: currentDay, newItems: items});
 
 });
 
 app.post("/", (req, res)=>{
-  var item = req.body.newItem;
+  let item = req.body.newItem;
   items.push(item);
   res.redirect("/");
 })
