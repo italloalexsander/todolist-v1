@@ -7,7 +7,8 @@ app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 
-let items = ["Buy Food", "Cook Food", "Eat Food"]
+let items = ["Buy Food", "Cook Food", "Eat Food"];
+let workItems = [];
 
 app.get("/", (req, res) => {
 
@@ -21,14 +22,28 @@ app.get("/", (req, res) => {
 
   let currentDay = today.toLocaleDateString("en-US", options);
 
-  res.render('list', { day: currentDay, newItems: items });
+  res.render('list', { listName: currentDay, newItems: items });
 
 });
 
 app.post("/", (req, res) => {
   let item = req.body.newItem;
-  items.push(item);
-  res.redirect("/");
+  
+  if(req.body.button === "Work"){
+    workItems.push(item);
+    res.redirect("/work");
+  }else{
+    items.push(item);
+    res.redirect("/");
+  } 
+})
+
+app.get("/work", (req, res) => {
+  res.render('list', { listName: "Work", newItems: workItems });
+})
+
+app.get("/about", (req, res) =>{
+  res.render('about')
 })
 
 app.listen(3000, (req, res) => {
