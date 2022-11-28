@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js")
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost.com/27017/todoListDB");
+mongoose.connect("mongodb://localhost.com:27017/todoListDB");
 
 
 const app = express();
@@ -34,7 +34,6 @@ Task.insertMany([orderFood, eatFood, cleanPlates], (err)=>{
   if(err){
     console.log(err)
   }else{
-    mongoose.connection.close();
     console.log("All items were inserted");
   }
 })
