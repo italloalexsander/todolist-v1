@@ -1,6 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js")
+const mongoose = require("mongoose");
+
+mongoose.connect("https://localhost.com/27017/todoListDB");
+
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -8,8 +12,11 @@ app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 
-const items = ["Buy Food", "Cook Food", "Eat Food"];
-const workItems = [];
+const taskSchema = {
+  name: String
+}
+
+const Task = mongoose.model("task", taskSchema);
 
 app.get("/", (req, res) => {
 
