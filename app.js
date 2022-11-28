@@ -16,47 +16,61 @@ const taskSchema = {
   name: String
 }
 
+
 const Task = mongoose.model("task", taskSchema);
 
-const orderFood = new Task({
-  name: "Order food"
+const welcomeMessage = new Task({
+  name: "Welcome to your ToDo List"
 })
 
-const eatFood = new Task({
-  name: "Eat food"
+const plusMessage = new Task({
+  name: "Hit + to add a task"
 })
 
-const cleanPlates = new Task({
-  name: "Clean Plates"
+const completeMessage = new Task({
+  name: "<- Select this to mark as complete"
 })
 
-Task.insertMany([orderFood, eatFood, cleanPlates], (err)=>{
-  if(err){
-    console.log(err)
-  }else{
-    console.log("All items were inserted");
-  }
-});
+
+
+
+const items = [];
 
 app.get("/", (req, res) => {
 
   const currentDay = date.getDay("en-US");
+  Task.find({},(err, results)=>{
+    if(results.length === 0){
+      Task.insertMany([welcomeMessage, plusMessage, completeMessage], (err)=>{
+        if(err){
+          console.log(err)
+        }else{
+          console.log("All items were inserted");
+        }
+      })
+      res.redirect("/");
+    }
+    res.render('list', { listName: currentDay, newItems: results});
 
-  res.render('list', { listName: currentDay, newItems: items });
+  })
 
 });
 
 app.post("/", (req, res) => {
-  const item = req.body.newItem;
+  const itemName = req.body.newItem;
 
-  if (req.body.button === "Work") {
+  const newItem = new Task({
+    name: itemName
+  })
+
+  /*if (req.body.button === "Work") {
     workItems.push(item);
     res.redirect("/work");
-  } else {
-    items.push(item);
+  } else {*/
+    newItem.save();
     res.redirect("/");
   }
-})
+)
 
 app.get("/work", (req, res) => {
   res.render('list', { listName: "Work", newItems: workItems });
