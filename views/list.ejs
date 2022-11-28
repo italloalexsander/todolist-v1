@@ -9,13 +9,15 @@
     </div>
 
     <div class="box">
-      <%newItems.forEach((items) => {%>
-        <div class="item">
-          <input type="checkbox">
-          <p>
-            <%=items.name%>
-          </p>
-        </div>
+      <%newItems.forEach((items)=> {%>
+        <form action="/delete" method="post">
+          <div class="item">
+            <input type="checkbox" name="checkbox" value="<%=items._id%>" onChange="this.form.submit()">
+            <p>
+              <%=items.name%>
+            </p>
+          </div>
+        </form>
         <%})%>
 
           <form class="item" action="/" method="post">
