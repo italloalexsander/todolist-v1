@@ -31,26 +31,30 @@ const completeMessage = new Task({
   name: "<- Select this to mark as complete"
 })
 
+const defaultTasks = [welcomeMessage, plusMessage, completeMessage];
 
+const listSchema = {
+  name: String,
+  tasks: [taskSchema]
+}
 
-
-const items = [];
+const List = mongoose.model("List", listSchema);
 
 app.get("/", (req, res) => {
 
   const currentDay = date.getDay("en-US");
-  Task.find({},(err, results)=>{
-    if(results.length === 0){
-      Task.insertMany([welcomeMessage, plusMessage, completeMessage], (err)=>{
-        if(err){
+  Task.find({}, (err, results) => {
+    if (results.length === 0) {
+      Task.insertMany(defaultTasks, (err) => {
+        if (err) {
           console.log(err)
-        }else{
+        } else {
           console.log("All items were inserted");
         }
       })
       res.redirect("/");
     }
-    res.render('list', { listName: currentDay, newItems: results});
+    res.render('list', { listName: currentDay, newItems: results });
 
   })
 
@@ -67,26 +71,46 @@ app.post("/", (req, res) => {
     workItems.push(item);
     res.redirect("/work");
   } else {*/
-    newItem.save();
-    res.redirect("/");
-  }
+  newItem.save();
+  res.redirect("/");
+}
 )
 
-app.post("/delete", (req, res)=>{
+app.post("/delete", (req, res) => {
   const checkedItemid = req.body.checkbox;
-  Task.findByIdAndRemove(checkedItemid, (err)=>{
-    if(err){
+  Task.findByIdAndRemove(checkedItemid, (err) => {
+    if (err) {
       console.log(err);
     }
-    else{
+    else {
       console.log("deleted item: " + checkedItemid);
       res.redirect("/");
     }
   })
 })
 
-app.get("/work", (req, res) => {
-  res.render('list', { listName: "Work", newItems: workItems });
+app.get("/:customList", (req, res) => {
+  const customListName = req.params.customList;
+  List.findOne({ name: customListName }, (err, result) => {
+    if (!err) {
+      if (!result) {
+        //Create a new list
+        const list = new List({
+          name: customListName,
+          tasks: defaultTasks
+        })
+        list.save();
+        res.redirect("/" + customListName);
+      } else {
+        //Show existing list
+        console.log(result);
+        res.render('list', { listName: result.name, newItems: result.tasks })
+      }
+    } else {
+      console.log(err);
+    }
+  })
+
 })
 
 app.get("/about", (req, res) => {
