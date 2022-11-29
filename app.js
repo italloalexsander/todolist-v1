@@ -75,7 +75,6 @@ app.post("/", (req, res) => {
     List.findOne({name: listName}, (err, result) => {
       if(!err){
         if(result){
-          console.log("Entered here");
           result.tasks.push(newItem);
           result.save();
           res.redirect("/" + result.name);
@@ -102,7 +101,6 @@ app.post("/delete", (req, res) => {
       }
     })
   } else {
-    console.log("Entered here yes");
     List.findOneAndUpdate({name: listName}, 
       {$pull: {tasks: {_id: checkedItemid}}}, 
       (err, result)=>{
