@@ -17,12 +17,13 @@
               <%=items.name%>
             </p>
           </div>
+          <input type="hidden" name="listName" value="<%=listName%>"></input>
         </form>
         <%})%>
 
           <form class="item" action="/" method="post">
             <input id="newItem" name="newItem" type="text" placeholder="New Item" autocomplete="off">
-            <button type="submit" name="button" value=<%=listName%>>+</button>
+            <button type="submit" name="list" value="<%=listName%>">+</button>
           </form>
     </div>
 
